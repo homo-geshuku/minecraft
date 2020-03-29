@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  minecraft:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: 'minecraft'
+    env_file:
+      - ./s3.env
+      - ./minecraft.env
+    ports:
+      - "25565"
+    command: "/cmd/upload.sh && /cmd/download.sh && /cmd/serverstart.sh"
+    volumes:
+      - minecraft_data:/minecraft_data
+      - ./cmd:/cmd:ro
+volumes:
+  minecraft_data:
