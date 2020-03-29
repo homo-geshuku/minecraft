@@ -4,12 +4,15 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
+    command: "/cmd/docker.sh"
     container_name: 'minecraft'
     env_file:
       - ./minecraft.env
     ports:
-      - "25565"
-    command: "/cmd/upload.sh && /cmd/download.sh && /cmd/serverstart.sh"
+      - "25565:25565"
+    restart: always
+    stdin_open: true
+    tty: true
     volumes:
       - minecraft_data:/minecraft_data
       - ./cmd:/cmd:ro
