@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
     minecraft:
-        image: itzg/minecraft-server:java8-openj9
+        image: mecaota/minecraft-with-mods:latest
         volumes:
             - minecraft:/data
         ports:
