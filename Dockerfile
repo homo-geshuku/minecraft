@@ -1,12 +1,12 @@
-FROM openjdk:8-alpine
+FROM amazon/aws-cli:latest as downloader
+WORKDIR /mods
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_SECRET_ACCESS_KEY
+ARG AWS_DEFAULT_REGION
+ARG AWS_ENDPOINT
+ARG BUCKET_NAME
+ARG MOD_DIRECTORY
+RUN aws s3 sync s3://${BUCKET_NAME}/${MOD_DIRECTORY} ./ --endpoint-url ${AWS_ENDPOINT}
 
-# awscli preinstall
-RUN apk update
-RUN apk add python3 zip
-
-# awscli install
-RUN pip3 install awscli
-
-# initial setting
-VOLUME /minecraft_data
-WORKDIR /minecraft_data
+FROM itzg/minecraft-server:java8-openj9 as runner
+COPY --from=downloader /mods /data/mods
