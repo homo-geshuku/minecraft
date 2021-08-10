@@ -24,3 +24,10 @@ jobs:
         with:
           push: true
           tags: mecaota/minecraft-with-mods:latest
+          build-args: |
+            AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }}
+            AWS_ENDPOINT=${{ secrets.AWS_ENDPOINT }}
+            AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            BUCKET_NAME=${{ secrets.BUCKET_NAME }}
+            MOD_DIRECTORY=${{ secrets.MOD_DIRECTORY }}
