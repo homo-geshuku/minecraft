@@ -2,22 +2,29 @@ version: '3.8'
 
 services:
     minecraft:
-        image: mecaota/minecraft-with-mods:latest
+        image: itzg/minecraft-server:java8
         volumes:
             - minecraft:/data
         ports:
-            - "25565:25565"
-        env_file:
-          - .env
+            - 25565:25565
         environment: 
-          VERSION: 1.12.2
-          TYPE: FORGE
-          EULA: true
-          MAX_MEMORY: 10G
-          TZ: Asia/Tokyo
-          ENABLE_RCON: true
+            VERSION: 1.12.2
+            TYPE: FORGE
+            EULA: "TRUE"
+            MAX_MEMORY: 10G
+            TZ: Asia/Tokyo
+            ENABLE_RCON: "TRUE"
+        depends_on:
+            - downloader
         tty: true
         stdin_open: true
         restart: "unless-stopped"
+    downloader:
+        image: amazon/aws-cli:latest
+        working_dir: /data
+        env_file: .env
+        volumes:
+            - minecraft:/data
+        command: s3 sync s3://${BUCKET_NAME}/${MOD_DIRECTORY} /data/mods --endpoint-url http://${AWS_ENDPOINT}
 volumes:
     minecraft:
